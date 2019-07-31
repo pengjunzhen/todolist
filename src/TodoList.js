@@ -1,15 +1,14 @@
 import React from 'react';
 import TodoItem from './TodoItem';
+import 'antd/dist/antd.css';
+import { Input, Button, List } from 'antd';
+import store from './store';
 
 class TodoList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      list: [
-      ],
-      inputValue: ''
-    }
+    this.state = store.getState();
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleItemDelete = this.handleItemDelete.bind(this);
@@ -56,14 +55,20 @@ class TodoList extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{marginTop: '10px', marginLeft: '10px'}}>
         <div>
           {/* 下面是一个注释 */}
           <label htmlFor="insertArea">输入内容：</label>
-          <input id="insertArea" value={this.state.inputValue} onChange={this.handleInputChange}/>
-          <button onClick={this.handleBtnClick}>add</button>
+          <Input id="insertArea" placeholder="write something" value={this.state.inputValue} onChange={this.handleInputChange} style={{width: '200px', marginRight: '10px'}}/>
+          <Button onClick={this.handleBtnClick} type='primary'>提交</Button>
         </div>
         <ul>{this.getTodoItems()}</ul>
+        <List
+          style={{marginTop: '10px', marginLeft: '10px'}}
+          bordered
+          dataSource={this.state.list}
+          renderItem={item => <List.Item>{item}</List.Item>}
+        />
       </div>
     );
   }
